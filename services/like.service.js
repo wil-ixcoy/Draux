@@ -1,6 +1,6 @@
 const boom = require("@hapi/boom");
 
-class PostService {
+class LikeService {
   async create(data){
   };
 
@@ -18,4 +18,4 @@ class PostService {
   };
 }
 
-module.exports = PostService;
+module.exports = LikeService;
