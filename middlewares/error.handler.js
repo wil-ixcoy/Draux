@@ -1,4 +1,4 @@
-import {ValidationError} from "sequelize";
+const {ValidationError} = require("sequelize");
 
 function logErrors (err, req, res, next) {
   console.error(err);
