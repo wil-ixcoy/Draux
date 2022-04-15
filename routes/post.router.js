@@ -1,5 +1,6 @@
 const express = require('express');
-const validatorHandler = require('../middlewares/validatorHandler');
+const validatorHandler = require('../middlewares/validator.handler');
+
 const PostService = require('../services/post.service');
 
 const {
@@ -77,3 +78,5 @@ router.delete(
     }
   }
 );
+
+module.exports = router;

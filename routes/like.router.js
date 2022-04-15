@@ -1,8 +1,8 @@
 const express = require('express');
-const validatorHandler = require('../middlewares/validatorHandler');
+const validatorHandler = require('../middlewares/validator.handler');
 const LikeService = require('../services/like.service');
 
-const { createLikeSchema } = require('../schemas/like.schema');
+const { createLikeSchema, getLikeSchema} = require('../schemas/like.schema');
 
 const router = express.Router();
 const service = new LikeService();
@@ -43,3 +43,5 @@ router.delete(
     }
   }
 );
+
+module.exports = router;

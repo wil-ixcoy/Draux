@@ -16,7 +16,6 @@ const getComentarySchema = joi.object({
 });
 
 const updateComentarySchema = joi.object({
-  title,
   content,
 });
 
