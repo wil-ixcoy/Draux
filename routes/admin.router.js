@@ -1,24 +1,24 @@
 const express = require('express');
 const validatorHandler = require('../middlewares/validatorHandler');
-const PostService = require('../services/post.service');
+const AdminService = require('../services/admin.service');
 
 const {
-  createPostSchema,
-  updatePostSchema,
-  getPostSchema,
-} = require('../schemas/post.schema');
+  createAdminSchema,
+  getAdminSchema,
+  updateAdminSchema,
+} = require('../schemas/admin.schema');
 
 const router = express.Router();
-const service = new PostService();
+const service = new AdminService();
 
 router.post(
   '/',
-  validatorHandler(createPostSchema, 'body'),
+  validatorHandler(createAdminSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newPost = await service.create(body);
-      res.json(newPost);
+      const newUser = await service.create(body);
+      res.json(newUser);
     } catch (err) {
       next(err);
     }
@@ -27,8 +27,8 @@ router.post(
 
 router.get('/', async (req, res, next) => {
   try {
-    const allPosts = await service.findAll();
-    res.json(allPosts);
+    const allUsers = await service.findAll();
+    res.json(allUsers);
   } catch (err) {
     next(err);
   }
@@ -36,12 +36,12 @@ router.get('/', async (req, res, next) => {
 
 router.get(
   '/:id',
-  validatorHandler(getPostSchema, 'params'),
+  validatorHandler(getAdminSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const post = await service.findOne(id);
-      res.json(post);
+      const user = await service.findOne(id);
+      res.json(user);
     } catch (err) {
       next(err);
     }
@@ -50,14 +50,14 @@ router.get(
 
 router.patch(
   '/:id',
-  validatorHandler(getPostSchema, 'params'),
-  validatorHandler(updatePostSchema, 'body'),
+  validatorHandler(getAdminSchema, 'params'),
+  validatorHandler(updateAdminSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const updatedPost = await service.update(id, body);
-      res.json(updatedPost);
+      const updatedUser = await service.update(id, body);
+      res.json(updatedUser);
     } catch (err) {
       next(err);
     }
@@ -66,12 +66,12 @@ router.patch(
 
 router.delete(
   '/:id',
-  validatorHandler(getPostSchema, 'params'),
+  validatorHandler(getAdminSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const deletedPost = await service.delete(id);
-      res.json(deletedPost);
+      const deletedUser = await service.delete(id);
+      res.json(deletedUser);
     } catch (err) {
       next(err);
     }
