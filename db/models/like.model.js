@@ -42,6 +42,8 @@ const LikeSchema = {
 class Like extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
+    this.hasOne(models.Post, { as: 'post', foreignKey: 'likeId' });
+    this.hasOne(models.Comentary, { as: 'comment', foreignKey: 'likeId' });
   }
   static config(sequelize) {
     return {
