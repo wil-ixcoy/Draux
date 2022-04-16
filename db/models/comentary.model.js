@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const { USER_TABLE } = require('./user.model');
 
 const COMENTARY_TABLE = 'comentaries';
 
@@ -25,9 +26,20 @@ const ComentarySchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
+  userId: {
+    field: 'user_id',
+    allowNull: false,
+    references: {
+      model: USER_TABLE,
+      key: 'id',
+    },
+  },
 };
 
 class Comentary extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: 'user' });
+  };
   static config(sequelize) {
     return {
       sequelize,

@@ -60,6 +60,10 @@ const UserSchema = {
 };
 
 class User extends Model {
+  static associate(models) {
+    this.hasMany(models.Post, { as: 'posts', foreignKey: 'userId' });
+  }
+
   static config(sequelize) {
     return {
       sequelize,
