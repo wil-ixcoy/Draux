@@ -35,8 +35,9 @@ const PostSchema = {
     references: {
       model: USER_TABLE,
       key: 'id'
-    }
-
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   }
 };
 class Post extends Model {

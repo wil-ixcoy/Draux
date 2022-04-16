@@ -35,6 +35,8 @@ const LikeSchema = {
       key: 'id',
     },
   },
+  onUpdate: 'CASCADE',
+  onDelete: 'SET NULL',
 };
 
 class Like extends Model {
