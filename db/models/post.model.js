@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const {USER_TABLE}  = require('./user.model')
+const { USER_TABLE } = require('./user.model');
+const { CATEGORY_TABLE } = require('./category.model');
 const POST_TABLE = 'posts';
 
 const PostSchema = {
@@ -34,16 +35,28 @@ const PostSchema = {
     allowNull: false,
     references: {
       model: USER_TABLE,
-      key: 'id'
+      key: 'id',
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
-  }
+  },
+  categoryId: {
+    field: 'category_id',
+    allowNull: false,
+    references: {
+      model: CATEGORY_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
 };
 class Post extends Model {
-    static associate(models) {
-      this.belongsTo(models.User, { as: 'user' });
-    }
+  static associate(models) {
+    this.belongsTo(models.User, { as: 'user' });
+    this.belongsTo(models.Category, { as: 'category' });
+    this.hasMany(models.Comment, { as: 'comments', foreignKey: 'postId' });
+  }
   static config(sequelize) {
     return {
       sequelize,

@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { USER_TABLE } = require('./user.model');
+const {POST_TABLE} = require('./post.model');
 
-const COMENTARY_TABLE = 'comentaries';
+const COMENTARY_TABLE = 'comments';
 
 const ComentarySchema = {
   id: {
@@ -36,11 +37,22 @@ const ComentarySchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
+  postId: {
+    field: 'post_id',
+    allowNull: false,
+    references: {
+      model: POST_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
 };
 
 class Comentary extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
+    this.belongsTo(models.Post, { as: 'post' });
   };
   static config(sequelize) {
     return {
