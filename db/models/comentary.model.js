@@ -31,6 +31,7 @@ const ComentarySchema = {
   userId: {
     field: 'user_id',
     allowNull: false,
+    type: DataTypes.INTEGER,
     references: {
       model: USER_TABLE,
       key: 'id',
@@ -41,6 +42,7 @@ const ComentarySchema = {
   postId: {
     field: 'post_id',
     allowNull: false,
+    type: DataTypes.INTEGER,
     references: {
       model: POST_TABLE,
       key: 'id',
@@ -51,6 +53,7 @@ const ComentarySchema = {
   likeId: {
     field: 'like_id',
     allowNull: true,
+    type: DataTypes.INTEGER,
     references: {
       model: LIKE_TABLE,
       key: 'id',

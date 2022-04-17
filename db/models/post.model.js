@@ -34,6 +34,7 @@ const PostSchema = {
   userId: {
     field: 'user_id',
     allowNull: false,
+    type: DataTypes.INTEGER,
     references: {
       model: USER_TABLE,
       key: 'id',
@@ -44,6 +45,7 @@ const PostSchema = {
   categoryId: {
     field: 'category_id',
     allowNull: false,
+    type: DataTypes.INTEGER,
     references: {
       model: CATEGORY_TABLE,
       key: 'id',
@@ -54,6 +56,7 @@ const PostSchema = {
   likeId: {
     field: 'like_id',
     allowNull: true,
+    type: DataTypes.INTEGER,
     references: {
       model: LIKE_TABLE,
       key: 'id',
