@@ -11,7 +11,7 @@ class CategoryService {
     return allCategories;
   }
   async findOne(id) {
-    const category = await models.Category.findById(id);
+    const category = await models.Category.findByPk(id);
 
     if (!category) {
       throw boom('Category not found');
