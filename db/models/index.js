@@ -19,13 +19,12 @@ function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
 
   //asociaciones
-  //Admin.associate(models);
-  //Category.associate(models);
-  Comentary.associate(models);
-  Like.associate(models);
-  Post.associate(models);
+/*   Admin.associate(sequelize.models); */
+  Category.associate(sequelize.models);
+  Comentary.associate(sequelize.models);
+  Like.associate(sequelize.models);
+  Post.associate(sequelize.models);
   User.associate(sequelize.models);
-
 
 }
 

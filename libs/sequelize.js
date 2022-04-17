@@ -1,7 +1,7 @@
 //archivo para la conexion a la base de datos con sequelize
 const { Sequelize } = require('sequelize');
 const config = require('./../config/config');
-const { setupModels } = require('../db/models/index.js');
+const { setupModels } = require('./../db/models/index');
 
 const options = {
   dialect: 'postgres',
