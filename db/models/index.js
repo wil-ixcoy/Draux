@@ -22,7 +22,7 @@ function setupModels(sequelize) {
 /*   Admin.associate(sequelize.models); */
   Category.associate(sequelize.models);
   Comentary.associate(sequelize.models);
-  Like.associate(sequelize.models);
+/*   Like.associate(sequelize.models); */
   User.associate(sequelize.models);
 
 }

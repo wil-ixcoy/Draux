@@ -52,13 +52,11 @@ const PostSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-
 };
 class Post extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Category, { as: 'category' });
-    this.hasOne(models.Like, { as: 'like', foreignKey: 'postId' });
     this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'postId' });
   }
   static config(sequelize) {

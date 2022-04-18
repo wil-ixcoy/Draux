@@ -9,6 +9,12 @@ const email = joi.string().email();
 const password = joi.string().min(8);
 const newPassword = joi.string().min(8);
 const token = joi.string();
+const userId = joi.number().integer();
+/* const categoryId = joi.number().integer(); */
+const postId = joi.number().integer();
+const like = joi.number().integer();
+
+
 
 const createUserSchema = joi.object({
   name: name.required(),
@@ -17,6 +23,12 @@ const createUserSchema = joi.object({
   country: country.required(),
   email: email.required(),
   password: password.required(),
+});
+
+const createLikeUserSchema = joi.object({
+  userId: userId.required(),
+  postId: postId.required(),
+  like: like.required(),
 });
 
 const getUserSchema = joi.object({
@@ -41,4 +53,5 @@ module.exports = {
   getUserSchema,
   updateUserSchema,
   newPasswordSchema,
+  createLikeUserSchema,
 };

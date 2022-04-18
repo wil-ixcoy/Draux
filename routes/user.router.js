@@ -6,6 +6,7 @@ const {
   createUserSchema,
   updateUserSchema,
   getUserSchema,
+  createLikeUserSchema
 } = require('../schemas/user.schema');
 
 const router = express.Router();
@@ -19,6 +20,18 @@ router.post(
       const body = req.body;
       const newUser = await service.create(body);
       res.json(newUser);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post('/like-post', validatorHandler(createLikeUserSchema,'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newLike = await service.createLike(body);
+      res.json(newLike);
     } catch (err) {
       next(err);
     }

@@ -31,6 +31,8 @@ const LikeSchema = {
       model: USER_TABLE,
       key: 'id',
     },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
     postId: {
       field: 'post_id',
@@ -40,6 +42,8 @@ const LikeSchema = {
         model: POST_TABLE,
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
     },
     comentaryId: {
       field: 'comentary_id',
@@ -53,11 +57,11 @@ const LikeSchema = {
 };
 
 class Like extends Model {
-  static associate(models) {
+/*   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Post, { as: 'post' });
     this.belongsTo(models.Comentary, { as: 'comentary' });
-  }
+  } */
   static config(sequelize) {
     return {
       sequelize,

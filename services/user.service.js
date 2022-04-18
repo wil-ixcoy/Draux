@@ -14,6 +14,11 @@ class UserService {
     return user;
   }
 
+  async createLike(data){
+    const like = await models.Like.create(data);
+    return like;
+  }
+
   async findAll() {
     const allUsers = await models.User.findAll();
     return allUsers;
