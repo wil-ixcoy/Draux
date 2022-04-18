@@ -11,7 +11,7 @@ const PostSchema = {
     primaryKey: true,
     autoIncrement: true,
   },
-  tile: {
+  title: {
     allowNull: false,
     type: DataTypes.STRING,
   },

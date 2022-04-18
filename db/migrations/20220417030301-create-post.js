@@ -9,3 +9,5 @@ module.exports = {
     await queryInterface.dropTable(POST_TABLE);
   }
 };
+
+

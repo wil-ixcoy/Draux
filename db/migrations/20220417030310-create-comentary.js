@@ -12,4 +12,3 @@ module.exports = {
     await queryInterface.dropTable(COMENTARY_TABLE);
   },
 };
-
