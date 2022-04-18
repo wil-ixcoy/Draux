@@ -31,6 +31,7 @@ const ComentarySchema = {
     field: 'user_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    unique:true,
     references: {
       model: USER_TABLE,
       key: 'id',
@@ -42,6 +43,7 @@ const ComentarySchema = {
     field: 'post_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    unique:true,
     references: {
       model: POST_TABLE,
       key: 'id',
@@ -55,7 +57,6 @@ class Comentary extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Post, { as: 'post' });
-    this.hasOne(models.Like, { as: 'like', foreignKey: 'comentaryId' });
 
   };
   static config(sequelize) {

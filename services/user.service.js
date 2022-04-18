@@ -9,14 +9,20 @@ class UserService {
     const user = await models.User.create({
       ...data,
       password: hash,
+
     });
 
     return user;
   }
 
-  async createLike(data){
+  async createLikePost(data){
     const like = await models.Like.create(data);
     return like;
+  }
+
+  async createLikeComentary(data){
+    const likePost = await models.Like.create(data);
+    return likePost;
   }
 
   async findAll() {
@@ -24,7 +30,9 @@ class UserService {
     return allUsers;
   }
   async findOne(id) {
-    const user = await models.User.findByPk(id);
+    const user = await models.User.findByPk(id,{
+      include: [ 'posts','comments']
+    });
 
     if (!user) {
       throw boom.notFound('User not found');

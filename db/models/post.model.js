@@ -34,6 +34,7 @@ const PostSchema = {
     field: 'user_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    unique:true,
     references: {
       model: USER_TABLE,
       key: 'id',
@@ -45,6 +46,7 @@ const PostSchema = {
     field: 'category_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    unique:true,
     references: {
       model: CATEGORY_TABLE,
       key: 'id',
@@ -56,8 +58,7 @@ const PostSchema = {
 class Post extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
-    this.belongsTo(models.Category, { as: 'category' });
-    this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'postId' });
+    this.hasMany(models.Comentary, { as: 'comentary', foreignKey: 'postId' });
   }
   static config(sequelize) {
     return {

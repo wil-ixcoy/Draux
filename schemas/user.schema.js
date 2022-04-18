@@ -10,7 +10,7 @@ const password = joi.string().min(8);
 const newPassword = joi.string().min(8);
 const token = joi.string();
 const userId = joi.number().integer();
-/* const categoryId = joi.number().integer(); */
+const categoryId = joi.number().integer();
 const postId = joi.number().integer();
 const like = joi.number().integer();
 
@@ -25,9 +25,15 @@ const createUserSchema = joi.object({
   password: password.required(),
 });
 
-const createLikeUserSchema = joi.object({
+const createLikePostUserSchema = joi.object({
   userId: userId.required(),
   postId: postId.required(),
+  like: like.required(),
+});
+
+const createLikeComentaryUserSchema = joi.object({
+  userId: userId.required(),
+  comentaryId: postId.required(),
   like: like.required(),
 });
 
@@ -53,5 +59,6 @@ module.exports = {
   getUserSchema,
   updateUserSchema,
   newPasswordSchema,
-  createLikeUserSchema,
+  createLikePostUserSchema,
+  createLikeComentaryUserSchema
 };
