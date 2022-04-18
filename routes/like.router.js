@@ -2,14 +2,32 @@ const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
 const LikeService = require('../services/like.service');
 
-const { createLikeSchema, getLikeSchema} = require('../schemas/like.schema');
+const {
+  createLikeComentarySchema,
+  createLikePostSchema,
+  getLikeSchema
+} = require('../schemas/like.schema');
 
 const router = express.Router();
 const service = new LikeService();
 
 router.post(
-  '/',
-  validatorHandler(createLikeSchema, 'body'),
+  '/post',
+  validatorHandler(createLikePostSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newLike = await service.create(body);
+      res.json(newLike);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  '/comentary',
+  validatorHandler(createLikeComentarySchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;

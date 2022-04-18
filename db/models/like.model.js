@@ -34,7 +34,7 @@ const LikeSchema = {
   },
     postId: {
       field: 'post_id',
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       references: {
         model: POST_TABLE,
@@ -43,7 +43,7 @@ const LikeSchema = {
     },
     comentaryId: {
       field: 'comentary_id',
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       references: {
         model: COMENTARY_TABLE,

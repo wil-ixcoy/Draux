@@ -6,10 +6,16 @@ const postId = joi.number().integer();
 const comentaryId = joi.number().integer();
 const like = joi.boolean();
 
-const createLikeSchema = joi.object({
+const createLikePostSchema = joi.object({
   like: like.required(),
   userId: userId.required(),
   postId: postId.required(),
+});
+
+const createLikeComentarySchema = joi.object({
+  like: like.required(),
+  userId: userId.required(),
+  comentaryId: comentaryId.required(),
 });
 
 const getLikeSchema = joi.object({
@@ -17,6 +23,7 @@ const getLikeSchema = joi.object({
 });
 
 module.exports = {
-  createLikeSchema,
+  createLikeComentarySchema,
+  createLikePostSchema,
   getLikeSchema,
 };
