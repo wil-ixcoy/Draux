@@ -12,8 +12,12 @@ class ComentaryService {
     return comentary;
   }
   async findOne(id) {
-    const comentary = await models.Comentary.findByPk(id,{
-      include: [ 'user','post']
+    const comentary = await models.Comentary.findByPk(id, {
+      include: [
+        'user',
+        'post',
+
+      ],
     });
     if (!comentary) {
       throw boom.notFound('Comentary not found');

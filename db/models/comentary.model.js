@@ -58,6 +58,7 @@ class Comentary extends Model {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Post, { as: 'post' });
 
+
   };
   static config(sequelize) {
     return {
