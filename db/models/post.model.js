@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { USER_TABLE } = require('./user.model');
 const { CATEGORY_TABLE } = require('./category.model');
-const {LIKE_TABLE} = require('./like.model');
 const POST_TABLE = 'posts';
 
 const PostSchema = {
@@ -53,24 +52,13 @@ const PostSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  likeId: {
-    field: 'like_id',
-    allowNull: true,
-    type: DataTypes.INTEGER,
-    references: {
-      model: LIKE_TABLE,
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
-  },
 
 };
 class Post extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Category, { as: 'category' });
-    this.belongsTo(models.Like, { as: 'like' });
+    this.hasOne(models.Like, { as: 'like', foreignKey: 'postId' });
     this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'postId' });
   }
   static config(sequelize) {

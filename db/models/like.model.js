@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { USER_TABLE } = require('./user.model');
+const { COMENTARY_TABLE } = require('./comentary.model');
+const { POST_TABLE } = require('./post.model');
 
 const LIKE_TABLE = 'likes';
 
@@ -21,12 +23,6 @@ const LikeSchema = {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
   },
-  updatedAt: {
-    field: 'updated_at',
-    allowNull: false,
-    type: DataTypes.DATE,
-    defaultValue: Sequelize.NOW,
-  },
   userId: {
     field: 'user_id',
     allowNull: false,
@@ -36,14 +32,31 @@ const LikeSchema = {
       key: 'id',
     },
   },
-
+    postId: {
+      field: 'post_id',
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: POST_TABLE,
+        key: 'id',
+      },
+    },
+    comentaryId: {
+      field: 'comentary_id',
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: COMENTARY_TABLE,
+        key: 'id',
+      },
+    },
 };
 
 class Like extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
-    this.hasOne(models.Post, { as: 'post', foreignKey: 'likeId' });
-    this.hasOne(models.Comentary, { as: 'comment', foreignKey: 'likeId' });
+    this.belongsTo(models.Post, { as: 'post' });
+    this.belongsTo(models.Comentary, { as: 'comentary' });
   }
   static config(sequelize) {
     return {

@@ -23,7 +23,6 @@ function setupModels(sequelize) {
   Category.associate(sequelize.models);
   Comentary.associate(sequelize.models);
   Like.associate(sequelize.models);
-  Post.associate(sequelize.models);
   User.associate(sequelize.models);
 
 }

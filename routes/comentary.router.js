@@ -1,7 +1,7 @@
 const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
-const ComentaryService = require('../services/comentary.service');
 
+const ComentaryService = require('../services/comentary.service');
 const {
   createComentarySchema,
   updateComentarySchema,

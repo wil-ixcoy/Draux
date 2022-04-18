@@ -9,8 +9,7 @@ const like = joi.boolean();
 const createLikeSchema = joi.object({
   like: like.required(),
   userId: userId.required(),
-  postId: postId,
-  comentaryId: comentaryId,
+  postId: postId.required(),
 });
 
 const getLikeSchema = joi.object({

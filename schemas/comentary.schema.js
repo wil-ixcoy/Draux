@@ -1,7 +1,7 @@
 const joi = require('joi');
 
 const id = joi.number().integer();
-const content = joi.string().max(50);
+const content = joi.string();
 const userId = joi.number().integer();
 const postId = joi.number().integer();
 
