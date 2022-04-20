@@ -16,12 +16,12 @@ class UserService {
   }
 
   async createLikePost(data){
-    const like = await models.Like.create(data);
+    const like = await models.UserPost.create(data);
     return like;
   }
 
   async createLikeComentary(data){
-    const likePost = await models.Like.create(data);
+    const likePost = await models.UserPost.create(data);
     return likePost;
   }
 

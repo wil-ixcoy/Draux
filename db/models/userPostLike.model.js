@@ -1,11 +1,10 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { USER_TABLE } = require('./user.model');
-const { COMENTARY_TABLE } = require('./comentary.model');
 const { POST_TABLE } = require('./post.model');
 
-const LIKE_TABLE = 'likes';
+const USER_POST_TABLE = 'user-post';
 
-const LikeSchema = {
+const UserPostSchema = {
   id: {
     allowNull: false,
     type: DataTypes.INTEGER,
@@ -45,35 +44,22 @@ const LikeSchema = {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
-    comentaryId: {
-      field: 'comentary_id',
-      allowNull: true,
-      type: DataTypes.INTEGER,
-      references: {
-        model: COMENTARY_TABLE,
-        key: 'id',
-      },
-    },
 };
 
-class Like extends Model {
-/*   static associate(models) {
-    this.belongsTo(models.User, { as: 'user' });
-    this.belongsTo(models.Post, { as: 'post' });
-    this.belongsTo(models.Comentary, { as: 'comentary' });
-  } */
+class UserPost extends Model {
+
   static config(sequelize) {
     return {
       sequelize,
-      tableName: LIKE_TABLE,
+      tableName: USER_POST_TABLE,
       timestamps: false,
-      modelName: 'Like',
+      modelName: 'UserPost',
     };
   }
 }
 
 module.exports = {
-  LikeSchema,
-  Like,
-  LIKE_TABLE,
+  UserPostSchema,
+  UserPost,
+  USER_POST_TABLE,
 };
