@@ -64,8 +64,8 @@ class User extends Model {
     this.hasMany(models.Post, { as: 'posts', foreignKey: 'userId' });
     this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'userId' });
     this.belongsToMany(models.Post, {
-      as: 'like-post',
-      through: 'user-post',
+      as: 'likesPost',
+      through: models.UserPost,
       foreignKey: 'userId',
       otherKey: 'postId',
     });

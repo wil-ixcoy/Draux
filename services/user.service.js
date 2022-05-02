@@ -31,7 +31,7 @@ class UserService {
   }
   async findOne(id) {
     const user = await models.User.findByPk(id,{
-      include: [ 'posts','comments']
+      include: [ 'posts','comments','likesPost']
     });
 
     if (!user) {
