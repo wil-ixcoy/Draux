@@ -57,8 +57,12 @@ class Comentary extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
     this.belongsTo(models.Post, { as: 'post' });
-
-
+    this.belongsToMany(models.User, {
+      as: 'likesComentary',
+      through: models.UserComentary,
+      foreignKey: 'userId',
+      otherKey: 'comentaryId',
+    });
   };
   static config(sequelize) {
     return {

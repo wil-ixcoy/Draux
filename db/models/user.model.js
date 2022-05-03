@@ -69,6 +69,12 @@ class User extends Model {
       foreignKey: 'userId',
       otherKey: 'postId',
     });
+    this.belongsToMany(models.Comentary, {
+      as: 'likesComentary',
+      through: models.UserComentary,
+      foreignKey: 'userId',
+      otherKey: 'comentaryId',
+    });
   }
 
   static config(sequelize) {

@@ -21,7 +21,7 @@ class UserService {
   }
 
   async createLikeComentary(data){
-    const likePost = await models.UserPost.create(data);
+    const likePost = await models.UserComentary.create(data);
     return likePost;
   }
 
@@ -31,7 +31,7 @@ class UserService {
   }
   async findOne(id) {
     const user = await models.User.findByPk(id,{
-      include: [ 'posts','comments','likesPost']
+      include: [ 'posts','comments','likesPost','likesComentary'],
     });
 
     if (!user) {

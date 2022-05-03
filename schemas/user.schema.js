@@ -10,7 +10,7 @@ const password = joi.string().min(8);
 const newPassword = joi.string().min(8);
 const token = joi.string();
 const userId = joi.number().integer();
-const categoryId = joi.number().integer();
+const comentaryId = joi.number().integer();
 const postId = joi.number().integer();
 const like = joi.number().integer();
 
@@ -33,7 +33,7 @@ const createLikePostUserSchema = joi.object({
 
 const createLikeComentaryUserSchema = joi.object({
   userId: userId.required(),
-  comentaryId: postId.required(),
+  comentaryId: comentaryId.required(),
   like: like.required(),
 });
 
