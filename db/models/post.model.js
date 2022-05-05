@@ -39,7 +39,7 @@ const PostSchema = {
       key: 'id',
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   },
   categoryId: {
     field: 'category_id',
@@ -50,7 +50,7 @@ const PostSchema = {
       key: 'id',
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   },
 };
 class Post extends Model {

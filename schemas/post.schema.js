@@ -5,7 +5,6 @@ const title = joi.string();
 const content = joi.string();
 const userId = joi.number().integer();
 const categoryId = joi.number().integer();
-
 const createPostSchema = joi.object({
   title: title.required(),
   content: content.required(),

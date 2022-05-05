@@ -32,11 +32,17 @@ class UserService {
   }
   async update(id, changes) {
     const user = await this.findOne(id);
+    if (!user) {
+      throw boom.notFound('User not found');
+    }
     const updatedUser = await user.update(changes);
     return updatedUser;
   }
   async delete(id) {
     const user = await this.findOne(id);
+    if (!user) {
+      throw boom.notFound('User not found');
+    }
     await user.destroy();
     return { id };
   }

@@ -36,7 +36,7 @@ const ComentarySchema = {
       key: 'id',
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   },
   postId: {
     field: 'post_id',
@@ -47,7 +47,7 @@ const ComentarySchema = {
       key: 'id',
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   },
 };
 
