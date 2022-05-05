@@ -63,18 +63,6 @@ class User extends Model {
   static associate(models) {
     this.hasMany(models.Post, { as: 'posts', foreignKey: 'userId' });
     this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'userId' });
-    this.belongsToMany(models.Post, {
-      as: 'likesPost',
-      through: models.UserPost,
-      foreignKey: 'userId',
-      otherKey: 'postId',
-    });
-    this.belongsToMany(models.Comentary, {
-      as: 'likesComentary',
-      through: models.UserComentary,
-      foreignKey: 'userId',
-      otherKey: 'comentaryId',
-    });
   }
 
   static config(sequelize) {
