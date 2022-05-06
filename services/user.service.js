@@ -9,7 +9,6 @@ class UserService {
     const user = await models.User.create({
       ...data,
       password: hash,
-
     });
 
     return user;
@@ -20,8 +19,8 @@ class UserService {
     return allUsers;
   }
   async findOne(id) {
-    const user = await models.User.findByPk(id,{
-      include: [ 'posts','comments'],
+    const user = await models.User.findByPk(id, {
+      include: ['posts', 'comments'],
     });
 
     if (!user) {
@@ -45,6 +44,13 @@ class UserService {
     }
     await user.destroy();
     return { id };
+  }
+
+  async findEmail(email) {
+    const response = await models.User.findOne({
+      where: { email },
+    });
+    return response;
   }
 }
 
