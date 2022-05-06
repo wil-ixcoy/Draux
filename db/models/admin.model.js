@@ -56,6 +56,9 @@ const AdminSchema = {
 };
 
 class Admin extends Model {
+  static associate(models) {
+    this.hasMany(models.Category, { as: 'categories', foreignKey: 'idAdmin' });
+  }
   static config(sequelize) {
     return {
       sequelize,

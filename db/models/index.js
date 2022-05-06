@@ -14,6 +14,7 @@ function setupModels(sequelize) {
 
   //asociaciones
   /*   Admin.associate(sequelize.models); */
+  Admin.associate(sequelize.models);
   User.associate(sequelize.models);
   Category.associate(sequelize.models);
   Comentary.associate(sequelize.models);
