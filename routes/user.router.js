@@ -2,6 +2,7 @@ const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
 const UserService = require('../services/user.service');
 const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const {
   createUserSchema,
@@ -29,6 +30,7 @@ router.post(
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('user','admin'),
   async (req, res, next) => {
     try {
       const allUsers = await service.findAll();
@@ -43,6 +45,7 @@ router.get(
   '/:id',
   validatorHandler(getUserSchema, 'params'),
   passport.authenticate('jwt', { session: false }),
+  checkRoles('user','admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -59,6 +62,7 @@ router.patch(
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -75,6 +79,7 @@ router.delete(
   '/:id',
   validatorHandler(getUserSchema, 'params'),
   passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

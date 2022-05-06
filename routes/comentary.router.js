@@ -1,12 +1,13 @@
 const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
-
 const ComentaryService = require('../services/comentary.service');
 const {
   createComentarySchema,
   updateComentarySchema,
   getComentarySchema,
 } = require('../schemas/comentary.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const router = express.Router();
 const service = new ComentaryService();
@@ -14,6 +15,8 @@ const service = new ComentaryService();
 router.post(
   '/',
   validatorHandler(createComentarySchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -25,18 +28,25 @@ router.post(
   }
 );
 
-router.get('/', async (req, res, next) => {
-  try {
-    const allComentaries = await service.findAll();
-    res.json(allComentaries);
-  } catch (err) {
-    next(err);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user', 'admin'),
+  async (req, res, next) => {
+    try {
+      const allComentaries = await service.findAll();
+      res.json(allComentaries);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get(
   '/:id',
   validatorHandler(getComentarySchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -52,6 +62,8 @@ router.patch(
   '/:id',
   validatorHandler(getComentarySchema, 'params'),
   validatorHandler(updateComentarySchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -67,6 +79,8 @@ router.patch(
 router.delete(
   '/:id',
   validatorHandler(getComentarySchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

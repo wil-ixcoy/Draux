@@ -7,6 +7,8 @@ const {
   getAdminSchema,
   updateAdminSchema,
 } = require('../schemas/admin.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const router = express.Router();
 const service = new AdminService();
@@ -25,18 +27,25 @@ router.post(
   }
 );
 
-router.get('/', async (req, res, next) => {
-  try {
-    const allUsers = await service.findAll();
-    res.json(allUsers);
-  } catch (err) {
-    next(err);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
+  async (req, res, next) => {
+    try {
+      const allUsers = await service.findAll();
+      res.json(allUsers);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get(
   '/:id',
   validatorHandler(getAdminSchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -52,6 +61,8 @@ router.patch(
   '/:id',
   validatorHandler(getAdminSchema, 'params'),
   validatorHandler(updateAdminSchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -67,6 +78,8 @@ router.patch(
 router.delete(
   '/:id',
   validatorHandler(getAdminSchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

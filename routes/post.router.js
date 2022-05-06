@@ -8,6 +8,8 @@ const {
   updatePostSchema,
   getPostSchema,
 } = require('../schemas/post.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const router = express.Router();
 const service = new PostService();
@@ -15,6 +17,8 @@ const service = new PostService();
 router.post(
   '/',
   validatorHandler(createPostSchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -26,18 +30,25 @@ router.post(
   }
 );
 
-router.get('/', async (req, res, next) => {
-  try {
-    const allPosts = await service.findAll();
-    res.json(allPosts);
-  } catch (err) {
-    next(err);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user', 'admin'),
+  async (req, res, next) => {
+    try {
+      const allPosts = await service.findAll();
+      res.json(allPosts);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -53,6 +64,8 @@ router.patch(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
   validatorHandler(updatePostSchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -68,6 +81,8 @@ router.patch(
 router.delete(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
