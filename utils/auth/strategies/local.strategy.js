@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 
 //uso del servicio de autenticacion
 const UserService = require('../../../services/user.service');
+const AdminService = require('../../../services/admin.service');
 const service = new UserService();
+const serviceAdmin = new AdminService();
 
 //estrategia cola y creamos una instancia de la estrategia creada.
 //obtenemos lo que necesitamos, y la funcion done para usarla cuando salga bien o mal
@@ -19,20 +21,24 @@ const localStrategy = new Strategy(
     try {
       //obtenemos el email del servicio en la function findEmail
       const user = await service.findEmail(email);
-      //validamos que exista y si no lanzamos un error
-      if (!user) {
+      const admin = await serviceAdmin.findEmailAdmin(email);
+      if (user) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          done(boom.unauthorized(), false);
+        }
+        delete user.dataValues.password;
+        done(null, user);
+      } else if (admin) {
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+          done(boom.unauthorized('contraseña de admin'), false);
+        }
+        delete admin.dataValues.password;
+        done(null, admin);
+      } else {
         done(boom.unauthorized(), false);
       }
-      //comparmos que el password sea igual al hash de la base de datos
-
-      //REVISAR ESTO
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        done(boom.unauthorized(), false);
-      }
-      delete user.dataValues.password;
-      //usamos done pero null por que no hay error y el user,
-      done(null, user);
     } catch (error) {
       done(error, false);
     }

@@ -16,15 +16,15 @@ class UserService {
     return allUsers;
   }
   async findOne(id) {
-    const user = await models.Admin.findByPk(id,{
-      include: ['categories']
+    const user = await models.Admin.findByPk(id, {
+      include: ['categories'],
     });
     if (!user) {
       throw boom.notFound('User not found');
     }
     return user;
   }
-  async update(id,changes) {
+  async update(id, changes) {
     const user = await this.findOne(id);
     if (!user) {
       throw boom.notFound('User not found');
@@ -39,6 +39,12 @@ class UserService {
     }
     await user.destroy();
     return { id };
+  }
+  async findEmailAdmin(email) {
+    const response = await models.Admin.findOne({
+      where: { email },
+    });
+    return response;
   }
 }
 
