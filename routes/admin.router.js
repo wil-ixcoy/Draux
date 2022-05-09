@@ -2,6 +2,8 @@ const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
 const AdminService = require('../services/admin.service');
 
+const AuthService = require('../services/auth.service');
+const serviceAuth = new AuthService();
 const {
   createAdminSchema,
   getAdminSchema,
@@ -19,8 +21,10 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.json(newUser);
+      const newAdmin = await service.create(body);
+      const admin = await service.findOne(newAdmin.id);
+      const token = serviceAuth.signToken(admin);
+      res.json(token);
     } catch (err) {
       next(err);
     }

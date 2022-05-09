@@ -121,7 +121,9 @@ class AuthService {
       const user = await service.findOne(payload.sub);
 
       if (user.recoveryToken !== token) {
-        boom.unauthorized();
+        return{
+          message: 'Token invalido'
+        }
       } else {
         const hash = await bcrypt.hash(newPassword, 10);
         await service.update(user.id, { password: hash, recoveryToken: null });
