@@ -4,6 +4,9 @@ const UserService = require('../services/user.service');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 
+const AuthService = require('../services/auth.service');
+const serviceAuth = new AuthService();
+
 const {
   createUserSchema,
   updateUserSchema,
@@ -19,8 +22,10 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.json(newUser);
+       const newUser = await service.create(body);
+       const user = await service.findOne(newUser.id);
+      const token = await serviceAuth.signToken(user);
+      res.json(token);
     } catch (err) {
       next(err);
     }
@@ -30,7 +35,7 @@ router.post(
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('user','admin'),
+  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const allUsers = await service.findAll();
@@ -45,7 +50,7 @@ router.get(
   '/:id',
   validatorHandler(getUserSchema, 'params'),
   passport.authenticate('jwt', { session: false }),
-  checkRoles('user','admin'),
+  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

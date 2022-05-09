@@ -1,43 +1,53 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
 const { models } = require('../libs/sequelize');
-class UserService {
+class AdminService {
   async create(data) {
     const hash = await bcrypt.hash(data.password, 10);
-    const user = await models.Admin.create({
+    const admin = await models.Admin.create({
       ...data,
       password: hash,
     });
-    return user;
+    delete admin.dataValues.password;
+    delete admin.dataValues.recoveryToken;
+    return admin;
   }
 
   async findAll() {
-    const allUsers = await models.Admin.findAll();
-    return allUsers;
+    const allAdmin = await models.Admin.findAll();
+    for (let i = 0; i < allAdmin.length; i++) {
+      delete allAdmin[i].dataValues.password;
+      delete allAdmin[i].dataValues.recoveryToken;
+    }
+    return allAdmin;
   }
   async findOne(id) {
-    const user = await models.Admin.findByPk(id, {
+    const admin = await models.Admin.findByPk(id, {
       include: ['categories'],
     });
-    if (!user) {
+    if (!admin) {
       throw boom.notFound('User not found');
     }
-    return user;
+    delete admin.dataValues.password;
+    delete admin.dataValues.recoveryToken;
+    return admin;
   }
   async update(id, changes) {
-    const user = await this.findOne(id);
-    if (!user) {
+    const admin = await this.findOne(id);
+    if (!admin) {
       throw boom.notFound('User not found');
     }
-    const updatedUser = await user.update(changes);
-    return updatedUser;
+    const updatedAdmin = await admin.update(changes);
+    delete updatedAdmin.dataValues.password;
+    delete updatedAdmin.dataValues.recoveryToken;
+    return updatedAdmin;
   }
   async delete(id) {
-    const user = await this.findOne(id);
-    if (!user) {
+    const admin = await this.findOne(id);
+    if (!admin) {
       throw boom.notFound('User not found');
     }
-    await user.destroy();
+    await admin.destroy();
     return { id };
   }
   async findEmailAdmin(email) {
@@ -48,4 +58,4 @@ class UserService {
   }
 }
 
-module.exports = UserService;
+module.exports = AdminService;
