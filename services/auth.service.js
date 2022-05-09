@@ -45,11 +45,17 @@ class AuthService {
       token,
     };
   }
-  async sendEmail(email) {
+  async sendRecoveryPassword(email) {
     const emailUser = await service.findEmail(email);
     const emailAdmin = await adminService.findEmailAdmin(email);
 
     if (emailUser) {
+      const tokenNewPassword = await this.tokenRecovery(emailUser);
+      const link = `http://myfrontend.com/recovery?token=${tokenNewPassword}`;
+      await service.update(emailUser.id, {
+        recoveryToken: tokenNewPassword,
+      });
+
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -63,14 +69,18 @@ class AuthService {
       await transporter.sendMail({
         from: config.email,
         to: `${emailUser.email}`,
-        subject: 'Este es un correo enviado con node.js',
-        text: 'Hola mundo con nodemailer',
-        html: '<b>Hola mundo con nodemailer</b>',
+        subject: 'Recupera tu contraseña',
+        text: 'Ingresa a este link para poder crear tu nueva contraseña',
+        html: `<b>${link}</b>`,
       });
       return {
-        message: 'email sent at user',
+        message: `email sent at user${link}`,
       };
+      /* seccion para enviar email a administrador */
     } else if (emailAdmin) {
+      const tokenNewPassword = await this.tokenRecovery(emailUser);
+      const link = `http://myfrontend.com/recovery?token=${tokenNewPassword}`;
+      await service.update(emailUser.id, { recoveryToken: tokenNewPassword });
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -84,14 +94,42 @@ class AuthService {
       await transporter.sendMail({
         from: config.email,
         to: `${emailAdmin.email}`,
-        subject: 'Este es un correo enviado con node.js',
-        text: 'Hola mundo con nodemailer',
-        html: '<b>Hola mundo con nodemailer</b>',
+        subject: 'Recupera tu contraseña',
+        text: 'Ingresa a este link para poder crear tu nueva contraseña',
+        html: `<b>${link}</b>`,
       });
       return {
         message: 'email sent at admistrator',
       };
     } else {
+      boom.unauthorized();
+    }
+  }
+
+  async tokenRecovery(email) {
+    const payload = {
+      sub: email.id,
+    };
+
+    const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '15min' });
+    return token;
+  }
+
+  async changePassword(token, newPassword) {
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await service.findOne(payload.sub);
+
+      if (user.recoveryToken !== token) {
+        boom.unauthorized();
+      } else {
+        const hash = await bcrypt.hash(newPassword, 10);
+        await service.update(user.id, { password: hash, recoveryToken: null });
+        return {
+          message: 'Contraseña cambiada',
+        };
+      }
+    } catch (error) {
       boom.unauthorized();
     }
   }
