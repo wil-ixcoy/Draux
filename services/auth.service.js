@@ -78,9 +78,9 @@ class AuthService {
       };
       /* seccion para enviar email a administrador */
     } else if (emailAdmin) {
-      const tokenNewPassword = await this.tokenRecovery(emailUser);
-      const link = `http://myfrontend.com/recovery?token=${tokenNewPassword}`;
-      await service.update(emailUser.id, { recoveryToken: tokenNewPassword });
+      const tokenNewPasswordAdmin = await this.tokenRecovery(emailAdmin);
+      const link = `http://myfrontend.com/recovery?token=${tokenNewPasswordAdmin}`;
+      await adminService.update(emailAdmin.id, { recoveryToken: tokenNewPasswordAdmin });
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -99,7 +99,7 @@ class AuthService {
         html: `<b>${link}</b>`,
       });
       return {
-        message: 'email sent at admistrator',
+        message: 'email sent at admistrator ' + link,
       };
     } else {
       boom.unauthorized();
@@ -119,6 +119,24 @@ class AuthService {
     try {
       const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.sub);
+
+      if (user.recoveryToken !== token) {
+        boom.unauthorized();
+      } else {
+        const hash = await bcrypt.hash(newPassword, 10);
+        await service.update(user.id, { password: hash, recoveryToken: null });
+        return {
+          message: 'Contraseña cambiada',
+        };
+      }
+    } catch (error) {
+      boom.unauthorized();
+    }
+  }
+  async changePasswordAdmin(token, newPassword) {
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await adminService.findOne(payload.sub);
 
       if (user.recoveryToken !== token) {
         boom.unauthorized();
