@@ -15,14 +15,14 @@ class CategoryService {
       include: [ 'posts'],
     });
     if (!category) {
-      throw boom('Category not found');
+      throw boom.notFound('Category not found');
     }
     return category;
   }
   async update(id, changes) {
     const category = await this.findOne(id);
     if (!category) {
-      throw boom('Category not found');
+      throw boom.notFound('Category not found');
     }
     const updatedCategory = await category.update(changes);
     return updatedCategory;
@@ -30,7 +30,7 @@ class CategoryService {
   async delete(id) {
     const category = await this.findOne(id);
     if (!category) {
-      throw boom('Category not found');
+      throw boom.notFound('Category not found');
     }
     await category.destroy();
     return { id };
