@@ -42,6 +42,7 @@ class UserService {
     const updatedUser = await user.update(changes);
     delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
+
     return updatedUser;
   }
   async delete(id) {
