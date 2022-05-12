@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 //uso del servicio de user par aobtener el email
 const service = new UserService();
 const adminService = new AdminService();
-const config = require('./../config/config');
+const { config } = require('./../config/config');
 
 class AuthService {
   //obtenemos el usuario esto con el servicio de user con el metodo findEmail
@@ -153,7 +153,10 @@ class AuthService {
         };
       } else {
         const hash = await bcrypt.hash(newPassword, 10);
-        await adminService.update(admin.id, { password: hash, recoveryToken: null });
+        await adminService.update(admin.id, {
+          password: hash,
+          recoveryToken: null,
+        });
         return {
           message: 'Contraseña cambiada',
         };

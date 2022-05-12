@@ -1,18 +1,17 @@
-const config = require('./../config/config');
+const { config } = require('./../config/config');
 
 module.exports = {
   development: {
-    url:config.databaseUrl,
+    url: config.databaseUrl,
     dialect: 'postgres',
   },
   production: {
-    url:config.databaseUrl,
+    url: config.databaseUrl,
     dialect: 'postgres',
     dialectOptions: {
-      ssl:{
-        rejectUnauthorized: false
-      }
-    }
-  }
-}
-
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  },
+};
