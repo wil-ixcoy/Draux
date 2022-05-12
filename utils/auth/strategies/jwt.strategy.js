@@ -1,13 +1,14 @@
-require('dotenv').config();
+const { config } = require('../../../config/config');
+
 const { Strategy, ExtractJwt } = require('passport-jwt');
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
+  secretOrKey: config.jwtSecret,
 };
 
-const jwtStategy = new Strategy(options, (payload, done) => {
+const JwtStrategy = new Strategy(options, (payload, done) => {
   return done(null, payload);
 });
 
-module.exports = jwtStategy;
+module.exports = JwtStrategy;
