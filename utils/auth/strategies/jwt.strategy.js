@@ -1,14 +1,13 @@
-const { config } = require('../../../config/config');
-
+const config = require('../../../config/config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
+
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.jwtSecret,
 };
-
-const JwtStrategy = new Strategy(options, (payload, done) => {
+const jwtStategy = new Strategy(options, (payload, done) => {
   return done(null, payload);
 });
 
-module.exports = JwtStrategy;
+module.exports = jwtStategy;
