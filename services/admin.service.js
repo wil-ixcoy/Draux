@@ -29,7 +29,6 @@ class AdminService {
       throw boom.notFound('User not found');
     }
     delete admin.dataValues.password;
-    delete admin.dataValues.recoveryToken;
     return admin;
   }
   async update(id, changes) {

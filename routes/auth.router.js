@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const validatorHandler = require('../middlewares/validator.handler');
-const { newPasswordUserSchema } = require('./../schemas/user.schema');
+const { newPasswordUserSchema,newPasswordAdminSchema } = require('./../schemas/user.schema');
 
 const AuthService = require('../services/auth.service');
 const service = new AuthService();
@@ -48,11 +48,11 @@ router.post(
 
 router.post(
   '/change-password-admin',
-  validatorHandler(newPasswordUserSchema, 'body'),
+  validatorHandler(newPasswordAdminSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { token, newPassword } = req.body;
-      const response = await service.changePasswordAdmin(token, newPassword);
+      const { token, newPasswordAdmin } = req.body;
+      const response = await service.changePasswordAdmin(token, newPasswordAdmin);
       res.json(response);
     } catch (error) {
       next(error);
