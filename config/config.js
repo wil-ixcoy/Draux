@@ -11,7 +11,7 @@ const config = {
   dbPort: process.env.DB_PORT,
   databaseUrl: process.env.DATABASE_URL,
   apiKey: process.env.API_KEY || '1234',
-  jwtSecret: process.env.JWT_SECRET,
+  jwtSecret: process.env.SECRET,
   email: process.env.EMAIL,
   emailPassword: process.env.EMAIL_PASSWORD,
 }
