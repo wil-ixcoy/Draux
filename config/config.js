@@ -16,4 +16,4 @@ const config = {
   emailPassword: process.env.EMAIL_PASSWORD,
 }
 
-module.exports = config;
+module.exports = { config };
