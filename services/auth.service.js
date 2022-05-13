@@ -74,7 +74,7 @@ class AuthService {
         html: `<b>${link}</b>`,
       });
       return {
-        message: `email sent at user${link}`,
+        message: `Email enviado a ${emailUser.email}`,
       };
       /* seccion para enviar email a administrador */
     } else if (emailAdmin) {
@@ -107,7 +107,7 @@ class AuthService {
         html: `<b>${link}</b>`,
       });
       return {
-        message: 'email sent at admistrator ' + link,
+        message: 'Email enviado a ' + emailAdmin.email,
       };
     } else {
       boom.unauthorized();

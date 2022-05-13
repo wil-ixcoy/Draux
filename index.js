@@ -1,19 +1,31 @@
+/* imports */
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 require('./utils/auth/index');
-
 const {
   logErrors,
   ormErrorHandler,
   errorHandler,
   boomErrorHandler,
 } = require('./middlewares/error.handler');
-
+/* swagger */
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerSpect = require('./swagger.config');
+/* express */
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
+/* use swagger */
+app.use(
+  '/api/v1/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJSDoc(swaggerSpect))
+);
+
+/* whitelist */
 const whitelist = ['http://localhost:8080', 'https://myapp.co'];
 const options = {
   origin: (origin, callback) => {
