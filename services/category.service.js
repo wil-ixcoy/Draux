@@ -33,7 +33,8 @@ class CategoryService {
       throw boom.notFound('Category not found');
     }
     await category.destroy();
-    return { id };
+    const message = "Category deleted";
+    return message;
   }
 }
 

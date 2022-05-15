@@ -284,7 +284,7 @@ router.get(
  * @swagger
  * /user/{id}:
  *  get:
- *    description: Obtiene todos los administradores
+ *    description: Obtiene un solo usuario
  *    tags: [User]
  *    parameters:
  *     - in: path
@@ -293,7 +293,7 @@ router.get(
  *        type: number
  *    responses:
  *      200:
- *       description: Lista de administradores
+ *       description: Retorna un usuario
  *       content:
  *        application/json:
  *          schema:
