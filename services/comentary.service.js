@@ -18,6 +18,8 @@ class ComentaryService {
     if (!comentary) {
       throw boom.notFound('Comentary not found');
     }
+    delete comentary.dataValues.user.dataValues.password;
+    delete comentary.dataValues.user.dataValues.recoveryToken;
     return comentary;
   }
   async update(id, changes) {
@@ -36,7 +38,8 @@ class ComentaryService {
     }
 
     await comentary.destroy();
-    return { id };
+    const message = 'Comentary deleted';
+    return message;
   }
 }
 
