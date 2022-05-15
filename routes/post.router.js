@@ -14,6 +14,149 @@ const { checkRoles } = require('../middlewares/auth.handler');
 const router = express.Router();
 const service = new PostService();
 
+/**
+ *@swagger
+ * components:
+ *  schemas:
+ *
+ *    PostCreate:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *        content:
+ *          type: string
+ *        UserId:
+ *          type: number
+ *        CategoryId:
+ *          type: number
+ *      required:
+ *        - title
+ *        - content
+ *        - userId
+ *        - categoryId
+ *      example:
+ *        title: "Proyecto hecho con express.js"
+ *        content: "API de un blogpost realizdo con express, postgress y sequelize"
+ *        userId: 1
+ *        categoryId: 1
+ *
+ *    PostUpdate:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *        content:
+ *          type: string
+ *      example:
+ *        title: "Angular"
+ *        content: "Angular es un framework de javascript"
+ *
+ *    ResponseCreatePost:
+ *      type: object
+ *      properties:
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        id:
+ *          type: number
+ *        title:
+ *          type: string
+ *        content:
+ *          type: string
+ *        UserId:
+ *         type: number
+ *        CategoryId:
+ *         type: number
+ *      example:
+ *        id: 1
+ *        title: "Proyecto hecho con express.js"
+ *        content: "API de un blogpost realizdo con express, postgress y sequelize"
+ *        createdAt: "2020-05-05T17:00:00.000Z"
+ *        updatedAt: "2020-05-05T17:00:00.000Z"
+ *        userId: 1
+ *        categoryId: 1
+ *
+ *    ResponseGetOnePost:
+ *      type: object
+ *      properties:
+ *        id:
+ *         type: number
+ *        title:
+ *          type: string
+ *        content:
+ *          type: string
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        userId:
+ *         type: number
+ *        categoryId:
+ *         type: number
+ *      example:
+ *        id: 1
+ *        title: "Proyecto hecho con express.js"
+ *        content: "API de un blogpost realizdo con express, postgress y sequelize"
+ *        createdAt: "2020-05-05T17:00:00.000Z"
+ *        updatedAt: "2020-05-05T17:00:00.000Z"
+ *        userId: 1
+ *        categoryId: 1
+ *        user: [{
+ *         id: 1,
+ *         name: "Alexander",
+ *         lastName: "Tzoc",
+ *         country: "Guatemala",
+ *         email: "wilicode34@gmail.com",
+ *         createdAt: "2020-05-05T17:00:00.000Z",
+ *         updatedAt: "2020-05-05T17:00:00.000Z",
+ *         role: "user",
+ *        }]
+ *        comentary: [{
+ *         id: 1,
+ *         content: "Me gusto mucho el post",
+ *         createdAt: "2020-05-05T17:00:00.000Z",
+ *         updatedAt: "2020-05-05T17:00:00.000Z",
+ *         userId: 2,
+ *         postId: 1,
+ *        }]
+ *
+ */
+
+ /**
+ * @swagger
+ * /post:
+ *  post:
+ *    description: Crea un nuevo post
+ *    tags: [Post]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *             $ref: '#/components/schemas/PostCreate'
+ *    responses:
+ *      200:
+ *       description: Categoria creada
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/ResponseCreatePost'
+ *      409:
+ *       description: email bust be unique
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
+ *
+ */
 router.post(
   '/',
   validatorHandler(createPostSchema, 'body'),
@@ -30,6 +173,30 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /post:
+ *  get:
+ *    description: Obtiene todos los posts
+ *    tags: [Post]
+ *    responses:
+ *      200:
+ *       description: Lista de posts
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/ResponseCreatePost'
+ *      400:
+ *       description: Bad request
+ *      401:
+ *       description: unauthorized
+ *      409:
+ *       description: conflict
+ *      500:
+ *       description: Internal server error
+ */
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -44,6 +211,37 @@ router.get(
   }
 );
 
+/**
+ * @swagger
+ * /post/{id}:
+ *  get:
+ *    description: Obtiene un solo post
+ *    tags: [Post]
+ *    parameters:
+ *     - in: path
+ *       name: id
+ *       schema:
+ *        type: number
+ *    responses:
+ *      200:
+ *       description: Retorna un post
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/ResponseGetOnePost'
+ *      400:
+ *       description: Bad request
+ *      401:
+ *       description: unauthorized
+ *      404:
+ *       description: Category not found
+ *      409:
+ *       description: conflict
+ *      500:
+ *       description: Internal server error
+ */
 router.get(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
@@ -60,6 +258,42 @@ router.get(
   }
 );
 
+/**
+ * @swagger
+ * /post/{id}:
+ *  patch:
+ *    tags: [Post]
+ *    description: Actualiza un post, titulo y contenido
+ *    parameters:
+ *     - in: path
+ *       name: id
+ *       schema:
+ *        type: number
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *             $ref: '#/components/schemas/PostUpdate'
+ *    responses:
+ *      200:
+ *       description: Datos actualizados
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/ResponseCreatePost'
+ *      400:
+ *       description: Bad request
+ *      401:
+ *       description: unauthorized
+ *      404:
+ *       description: Category not found
+ *      409:
+ *       description: conflict
+ *      500:
+ *       description: Internal server error
+ */
 router.patch(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
@@ -78,6 +312,39 @@ router.patch(
   }
 );
 
+/**
+ * @swagger
+ * /post/{id}:
+ *  delete:
+ *    description: elimina un post
+ *    tags: [Post]
+ *    parameters:
+ *     - in: path
+ *       name: id
+ *       schema:
+ *        type: number
+ *    responses:
+ *      200:
+ *       description: Post eliminado
+ *       content:
+ *        application/json:
+ *         schema:
+ *          type: object
+ *          properties:
+ *           message:
+ *            type: string
+ *          example: "Category deleted"
+ *      400:
+ *       description: Bad request
+ *      401:
+ *       description: unauthorized
+ *      404:
+ *       description: Category not found
+ *      409:
+ *       description: conflict
+ *      500:
+ *       description: Internal server error
+ */
 router.delete(
   '/:id',
   validatorHandler(getPostSchema, 'params'),

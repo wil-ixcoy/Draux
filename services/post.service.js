@@ -17,6 +17,8 @@ class PostService {
     if (!post) {
       throw boom.notFound('Post not found');
     }
+    delete post.dataValues.user.dataValues.password;
+    delete post.dataValues.user.dataValues.recoveryToken;
     return post;
   }
   async update(id, changes) {
@@ -25,6 +27,7 @@ class PostService {
       throw boom.notFound('Post not found');
     }
     const updatedPost = await post.update(changes);
+
     return updatedPost;
   }
   async delete(id) {
@@ -33,8 +36,8 @@ class PostService {
       throw boom.notFound('Post not found');
     }
     await post.destroy();
-
-    return { id };
+    const message = "Post deleted";
+    return message;
   }
 }
 
