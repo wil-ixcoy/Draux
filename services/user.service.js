@@ -32,6 +32,7 @@ class UserService {
       throw boom.notFound('User not found');
     }
     delete user.dataValues.password;
+    delete user.dataValues.recoveryToken;
     return user;
   }
   async update(id, changes) {
@@ -51,7 +52,8 @@ class UserService {
       throw boom.notFound('User not found');
     }
     await user.destroy();
-    return { id };
+    const message = "User deleted";
+    return message;
   }
 
   async findEmail(email) {

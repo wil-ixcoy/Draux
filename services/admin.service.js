@@ -48,7 +48,7 @@ class AdminService {
       throw boom.notFound('Admin not found');
     }
     await admin.destroy();
-    const message = "Admin delete"
+    const message = "Admin deleted"
     return message;
   }
   async findEmailAdmin(email) {

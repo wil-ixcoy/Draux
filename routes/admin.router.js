@@ -18,6 +18,7 @@ const service = new AdminService();
  *@swagger
  * components:
  *  schemas:
+ *
  *    AdminCreate:
  *      type: object
  *      properties:
@@ -45,6 +46,7 @@ const service = new AdminService();
  *        country: "Guatemala"
  *        email: "wiliamsg200295@gmail.com"
  *        password: "123456789"
+ *
  *    AdminUpdate:
  *      type: object
  *      properties:
@@ -63,7 +65,7 @@ const service = new AdminService();
  *        country: "Guatemala"
  *        email: "wiliamsg200295@gmail.com"
  *
- *    ResponseCreate:
+ *    ResponseCreateAdmin:
  *      type: object
  *      properties:
  *        id:
@@ -87,14 +89,6 @@ const service = new AdminService();
  *         type: array
  *        token:
  *          type: string
- *      required:
- *        - name
- *        - lastName
- *        - country
- *        - email
- *        - createdAt
- *        - updatedAt
- *        - token
  *      example:
  *        id: 1
  *        name: "Williams"
@@ -103,10 +97,11 @@ const service = new AdminService();
  *        email: "wiliamsg200295@gmail.com"
  *        createdAt: "2020-05-05T17:00:00.000Z"
  *        updatedAt: "2020-05-05T17:00:00.000Z"
+ *        role: "admin"
  *        categories: []
  *        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1MjUzNzQyN30.zTXbt6851Mr79mBkje5Bo301msbwQKLdtULOrFc22L0"
  *
- *    ResponseGetAll:
+ *    ResponseGetAllAdmin:
  *      type: object
  *      properties:
  *        id:
@@ -128,13 +123,6 @@ const service = new AdminService();
  *          format: date-time
  *        role:
  *         type: string
- *      required:
- *        - name
- *        - lastName
- *        - country
- *        - email
- *        - createdAt
- *        - updatedAt
  *      example:
  *        id: 1
  *        name: "Williams"
@@ -145,7 +133,7 @@ const service = new AdminService();
  *        updatedAt: "2020-05-05T17:00:00.000Z"
  *        role: "admin"
  *
- *    ResponseGetOne:
+ *    ResponseGetOneAdmin:
  *      type: object
  *      properties:
  *        id:
@@ -169,13 +157,6 @@ const service = new AdminService();
  *         type: string
  *        categories:
  *         type: object
- *      required:
- *        - name
- *        - lastName
- *        - country
- *        - email
- *        - createdAt
- *        - updatedAt
  *      example:
  *        id: 1
  *        name: "Williams"
@@ -207,7 +188,7 @@ const service = new AdminService();
  *          schema:
  *            type: array
  *            items:
- *              $ref: '#/components/schemas/ResponseCreate'
+ *              $ref: '#/components/schemas/ResponseCreateAdmin'
  *      409:
  *       description: email bust be unique
  *      400:
@@ -246,7 +227,7 @@ router.post(
  *          schema:
  *            type: array
  *            items:
- *              $ref: '#/components/schemas/ResponseGetAll'
+ *              $ref: '#/components/schemas/ResponseGetAllAdmin'
  *      400:
  *       description: Bad request
  *      401:
@@ -269,6 +250,7 @@ router.get(
     }
   }
 );
+
 /**
  * @swagger
  * /admin/{id}:
@@ -288,7 +270,7 @@ router.get(
  *          schema:
  *            type: array
  *            items:
- *              $ref: '#/components/schemas/ResponseGetAll'
+ *              $ref: '#/components/schemas/ResponseGetOneAdmin'
  *      400:
  *       description: Bad request
  *      401:
@@ -340,7 +322,7 @@ router.get(
  *          schema:
  *            type: array
  *            items:
- *              $ref: '#/components/schemas/ResponseGetOne'
+ *              $ref: '#/components/schemas/ResponseGetOneAdmin'
  *      400:
  *       description: Bad request
  *      401:
@@ -383,7 +365,7 @@ router.patch(
  *        type: number
  *    responses:
  *      200:
- *       description: Administrador eliminado correctamente
+ *       description: Administrador eliminado
  *       content:
  *        application/json:
  *         schema:
@@ -391,7 +373,7 @@ router.patch(
  *          properties:
  *           message:
  *            type: string
- *          example: "Admin delete"
+ *          example: "Admin deleted"
  *      400:
  *       description: Bad request
  *      401:
