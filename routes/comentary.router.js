@@ -116,7 +116,7 @@ const service = new ComentaryService();
  *
  */
 
- /**
+/**
  * @swagger
  * /comentary:
  *  post:
@@ -185,19 +185,14 @@ router.post(
  *      500:
  *       description: Internal server error
  */
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
-  async (req, res, next) => {
-    try {
-      const allComentaries = await service.findAll();
-      res.json(allComentaries);
-    } catch (err) {
-      next(err);
-    }
+router.get('/', async (req, res, next) => {
+  try {
+    const allComentaries = await service.findAll();
+    res.json(allComentaries);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 /**
  * @swagger
@@ -233,8 +228,6 @@ router.get(
 router.get(
   '/:id',
   validatorHandler(getComentarySchema, 'params'),
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

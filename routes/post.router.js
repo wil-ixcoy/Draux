@@ -128,7 +128,7 @@ const service = new PostService();
  *
  */
 
- /**
+/**
  * @swagger
  * /post:
  *  post:
@@ -197,19 +197,14 @@ router.post(
  *      500:
  *       description: Internal server error
  */
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
-  async (req, res, next) => {
-    try {
-      const allPosts = await service.findAll();
-      res.json(allPosts);
-    } catch (err) {
-      next(err);
-    }
+router.get('/', async (req, res, next) => {
+  try {
+    const allPosts = await service.findAll();
+    res.json(allPosts);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 /**
  * @swagger
@@ -245,8 +240,6 @@ router.get(
 router.get(
   '/:id',
   validatorHandler(getPostSchema, 'params'),
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
