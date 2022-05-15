@@ -135,7 +135,7 @@ router.post('/recovery', async (req, res, next) => {
  *             $ref: '#/components/schemas/ChangePasswordUser'
  *    responses:
  *      200:
- *       description: Contraseña cambiada
+ *       description: Return admin y token de acceso
  */
 router.post(
   '/change-password',

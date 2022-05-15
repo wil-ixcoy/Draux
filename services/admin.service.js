@@ -26,15 +26,16 @@ class AdminService {
       include: ['categories'],
     });
     if (!admin) {
-      throw boom.notFound('User not found');
+      throw boom.notFound('Admin not found');
     }
     delete admin.dataValues.password;
+    delete admin.dataValues.recoveryToken;
     return admin;
   }
   async update(id, changes) {
     const admin = await this.findOne(id);
     if (!admin) {
-      throw boom.notFound('User not found');
+      throw boom.notFound('Admin not found');
     }
     const updatedAdmin = await admin.update(changes);
     delete updatedAdmin.dataValues.password;
@@ -44,10 +45,11 @@ class AdminService {
   async delete(id) {
     const admin = await this.findOne(id);
     if (!admin) {
-      throw boom.notFound('User not found');
+      throw boom.notFound('Admin not found');
     }
     await admin.destroy();
-    return { id };
+    const message = "Admin delete"
+    return message;
   }
   async findEmailAdmin(email) {
     const response = await models.Admin.findOne({
