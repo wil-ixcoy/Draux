@@ -74,18 +74,13 @@ class AuthService {
         html: `<b>${link}</b>`,
       });
       return {
-        message: `Email enviado a ${emailUser.email}`,
+        message: 'Email de recuperación enviado de manera exitosa ',
       };
       /* seccion para enviar email a administrador */
     } else if (emailAdmin) {
       const tokenNewPasswordAdmin = await this.tokenRecovery(emailAdmin);
       const link = `http://myfrontend.com/recovery?token=${tokenNewPasswordAdmin}`;
-      console.log(
-        'ESte es el id y el usuario' +
-          emailAdmin.id +
-          emailAdmin.name +
-          emailAdmin.email
-      );
+
       await adminService.update(emailAdmin.id, {
         recoveryToken: tokenNewPasswordAdmin,
       });
@@ -107,10 +102,10 @@ class AuthService {
         html: `<b>${link}</b>`,
       });
       return {
-        message: 'Email enviado a ' + emailAdmin.email,
+        message: 'Email de recuperación enviado de manera exitosa ',
       };
     } else {
-      boom.unauthorized();
+        throw boom.notFound('Email no encontrado');
     }
   }
 
@@ -129,9 +124,7 @@ class AuthService {
       const user = await service.findOne(payload.sub);
 
       if (user.recoveryToken !== token) {
-        return {
-          message: 'Token invalido',
-        };
+        throw boom.unauthorized();
       } else {
         const hash = await bcrypt.hash(newPassword, 10);
         await service.update(user.id, { password: hash, recoveryToken: null });
@@ -148,9 +141,7 @@ class AuthService {
       const payload = jwt.verify(token, 'claveSecreta');
       const admin = await adminService.findOne(payload.sub);
       if (admin.recoveryToken !== token) {
-        return {
-          message: 'Token invalido',
-        };
+        throw boom.unauthorized();
       } else {
         const hash = await bcrypt.hash(newPassword, 10);
         await adminService.update(admin.id, {

@@ -30,6 +30,24 @@ const router = express.Router();
  *      example:
  *        email: "wiliamsg200295@gmail.com"
  *        password: "123456789"
+ *
+ *    ResponseLogin:
+ *      type: object
+ *      properties:
+ *        token:
+ *          type: string
+ *      example:
+ *       user: [{
+ *        id: 1,
+ *        name: "Alexander",
+ *        lastName: "Tzoc",
+ *        country: "Guatemala",
+ *        email: "wilicode34@gmail.com",
+ *        createdAt: "2020-05-05T17:00:00.000Z",
+ *        updatedAt: "2020-05-05T17:00:00.000Z",
+ *        role: "user",
+ *        }]
+ *       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjUyNjUxNTY5fQ.qd-TIpmLpIiON5SF7_UZCLaXkvmi2xHLm65Pl7Prld4"
  */
 
 /**
@@ -47,6 +65,18 @@ const router = express.Router();
  *    responses:
  *      200:
  *       description: Retorna usuario y token
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/ResponseLogin'
+ *      409:
+ *       description: email bust be unique
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
  */
 
 router.post(
@@ -91,7 +121,13 @@ router.post(
  *             $ref: '#/components/schemas/Recovery'
  *    responses:
  *      200:
- *       description: Email enviado a wiliamsg200295@gmail.com
+ *       description: Email enviado de manera exitosa
+ *      404:
+ *       description: Email no encontrado
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
  */
 router.post('/recovery', async (req, res, next) => {
   try {
@@ -118,7 +154,7 @@ router.post('/recovery', async (req, res, next) => {
  *        - token
  *        - newPassword
  *      example:
- *        token: "eyasreqfatrdfvwa-.adfqerfasfq34refd.adsfqerfdjywhtrgr"
+ *        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY1MjMxMTk4NCwiZXhwIjoxNjUyMzEyODg0fQ.QDPqftYvIfATCa3Y-RczXtfj52w1k5d5nK_c6602se6o"
  *        newPassword: "nuevacontraseña"
  */
 /**
@@ -135,7 +171,13 @@ router.post('/recovery', async (req, res, next) => {
  *             $ref: '#/components/schemas/ChangePasswordUser'
  *    responses:
  *      200:
- *       description: Return admin y token de acceso
+ *       description: Contraseña cambiada
+ *      401:
+ *       description: Token invalido
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
  */
 router.post(
   '/change-password',
@@ -166,6 +208,12 @@ router.post(
  *    responses:
  *      200:
  *       description: Contraseña cambiada
+ *      401:
+ *       description: Token invalido
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
  */
 router.post(
   '/change-password-admin',

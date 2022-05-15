@@ -5,7 +5,7 @@ const swaggerSpect = {
       title: 'API BLOG',
       version: '1.0.0',
       description:
-        'Documentation de la API hecha con express, sequelize y postgresql',
+        'Documentación de la API para un blog, hecha con NodeJS, Express, Postgres, Sequelize, Passport.js y Swagger',
     },
     servers: [
       {
