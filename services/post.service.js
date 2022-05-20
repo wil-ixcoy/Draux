@@ -7,7 +7,9 @@ class PostService {
   }
 
   async findAll() {
-    const post = await models.Post.findAll();
+    const post = await models.Post.findAll({
+      include: ['comentary'],
+    });
     return post;
   }
   async findOne(id) {
