@@ -10,6 +10,10 @@ const PostSchema = {
     primaryKey: true,
     autoIncrement: true,
   },
+  image_url: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
   title: {
     allowNull: false,
     type: DataTypes.STRING,

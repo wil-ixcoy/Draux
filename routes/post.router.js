@@ -8,9 +8,18 @@ const {
   updatePostSchema,
   getPostSchema,
 } = require('../schemas/post.schema');
+const { uploadImageHandler, helperImage } = require('../middlewares/image.handler');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 
+const cloudinary = require("cloudinary");
+const fs = require("fs-extra");
+require("dotenv").config();
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.API_KEY_CLOUDINARY,
+  api_secret: process.env.SECRET_CLOUDINARY
+});
 const router = express.Router();
 const service = new PostService();
 
@@ -162,10 +171,22 @@ router.post(
   validatorHandler(createPostSchema, 'body'),
   passport.authenticate('jwt', { session: false }),
   checkRoles('user'),
+  uploadImageHandler.single('file'),
   async (req, res, next) => {
     try {
-      const body = req.body;
-      const newPost = await service.create(body);
+      const imageResize = await helperImage(req.file.path, `resized-${req.file.url_image}`);
+      const imageCloudinary = await cloudinary.v2.uploader.upload(imageResize.path);
+
+      const data = {
+        title: req.body.title,
+        content: req.body.content,
+        image_url: imageCloudinary.secure_url,
+        userId: req.body.userId,
+        categoryId: req.body.categoryId,
+      };
+      const newPost = await service.create(data);
+      await fs.unlink(req.file.path)
+      await fs.unlink(imageResize.path)
       res.json(newPost);
     } catch (err) {
       next(err);
