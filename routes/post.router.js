@@ -7,6 +7,7 @@ const {
   createPostSchema,
   updatePostSchema,
   getPostSchema,
+  likePostSchema
 } = require('../schemas/post.schema');
 const { uploadImageHandler, helperImage } = require('../middlewares/image.handler');
 const passport = require('passport');
@@ -188,6 +189,22 @@ router.post(
       await fs.unlink(req.file.path)
       await fs.unlink(imageResize.path)
       res.json(newPost);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  '/like',
+  validatorHandler(likePostSchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user'),
+  async (req, res, next) => {
+    try {
+      const { id, isLike } = req.body;
+      const newLike = await service.likePost(id, isLike);
+      res.json(newLike);
     } catch (err) {
       next(err);
     }

@@ -22,6 +22,10 @@ const PostSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  likes: {
+    allowNull: true,
+    type: DataTypes.INTEGER,
+  },
   createdAt: {
     field: 'created_at',
     allowNull: false,

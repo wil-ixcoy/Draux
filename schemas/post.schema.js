@@ -5,6 +5,7 @@ const title = joi.string();
 const content = joi.string();
 const userId = joi.number().integer();
 const categoryId = joi.number().integer();
+const isLike = joi.boolean();
 const createPostSchema = joi.object({
   title: title.required(),
   content: content.required(),
@@ -21,8 +22,14 @@ const updatePostSchema = joi.object({
   content,
 });
 
+const likePostSchema = joi.object({
+  id: id.required(),
+  isLike: isLike.required(),
+})
+
 module.exports = {
   createPostSchema,
   getPostSchema,
   updatePostSchema,
+  likePostSchema,
 };

@@ -41,6 +41,24 @@ class PostService {
     const message = "Post deleted";
     return message;
   }
+
+  async likePost(id, isLike) {
+    const post = await models.Post.findByPk(id);
+    if (!post) {
+      throw boom.notFound('Post not found');
+    }
+    let like = post.likes;
+    if (isLike === true) {
+      like = like + 1;
+      const updatedPost = await post.update({ likes: like });
+      return updatedPost;
+
+    } else if (isLike === false) {
+      like = like - 1;
+      const updatedPost = await post.update({ likes: like });
+      return updatedPost;
+    }
+  }
 }
 
 module.exports = PostService;
