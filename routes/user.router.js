@@ -11,6 +11,7 @@ const {
   createUserSchema,
   updateUserSchema,
   getUserSchema,
+  followUserSchema,
 } = require('../schemas/user.schema');
 
 const router = express.Router();
@@ -233,10 +234,27 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      const user = await service.findOne(newUser.id);
+      const followed = await service.create(body);
+      const user = await service.findOne(followed.id);
       const token = await serviceAuth.signToken(user);
       res.json(token);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  '/follow/',
+  validatorHandler(followUserSchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('user', 'admin'),
+  async (req, res, next) => {
+    try {
+      const data = req.body;
+
+      const followed = await service.follow(data);
+      res.json(followed);
     } catch (err) {
       next(err);
     }

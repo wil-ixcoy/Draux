@@ -61,6 +61,7 @@ const UserSchema = {
 
 class User extends Model {
   static associate(models) {
+    this.hasOne(models.Follow, { as: 'follow', foreignKey: 'userId' });
     this.hasMany(models.Post, { as: 'posts', foreignKey: 'userId' });
     this.hasMany(models.Comentary, { as: 'comments', foreignKey: 'userId' });
   }

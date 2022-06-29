@@ -9,8 +9,12 @@ const email = joi.string().email();
 const password = joi.string().min(8);
 const newPassword = joi.string().min(8);
 const token = joi.string();
-const tokenAdmin = joi.string();
-const newPasswordAdmin = joi.string().min(8);
+const tokenUser = joi.string();
+const newPasswordUser = joi.string().min(8);
+
+const userId = joi.number().integer();
+const userFrom = joi.number().integer();
+
 
 const createUserSchema = joi.object({
   name: name.required(),
@@ -23,6 +27,11 @@ const createUserSchema = joi.object({
 
 const getUserSchema = joi.object({
   id: id.required(),
+});
+
+const followUserSchema = joi.object({
+  userId,
+  userFrom,
 });
 
 const updateUserSchema = joi.object({
@@ -39,8 +48,8 @@ const newPasswordUserSchema = joi.object({
 });
 
 const newPasswordAdminSchema = joi.object({
-  token: tokenAdmin.required(),
-  newPasswordAdmin: newPasswordAdmin.required(),
+  token: tokenUser.required(),
+  newPasswordUser: newPasswordUser.required(),
 });
 module.exports = {
   createUserSchema,
@@ -48,4 +57,5 @@ module.exports = {
   updateUserSchema,
   newPasswordUserSchema,
   newPasswordAdminSchema,
+  followUserSchema,
 };

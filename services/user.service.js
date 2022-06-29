@@ -13,8 +13,7 @@ class UserService {
     delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
     return user;
-  }
-
+  };
   async findAll() {
     const allUsers = await models.User.findAll();
     for (let i = 0; i < allUsers.length; i++) {
@@ -22,7 +21,7 @@ class UserService {
       delete allUsers[i].dataValues.recoveryToken;
     }
     return allUsers;
-  }
+  };
   async findOne(id) {
     const user = await models.User.findByPk(id, {
       include: ['posts', 'comments'],
@@ -34,7 +33,7 @@ class UserService {
     delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
     return user;
-  }
+  };
   async update(id, changes) {
     const user = await this.findOne(id);
     if (!user) {
@@ -45,7 +44,7 @@ class UserService {
     delete user.dataValues.recoveryToken;
 
     return updatedUser;
-  }
+  };
   async delete(id) {
     const user = await this.findOne(id);
     if (!user) {
@@ -54,14 +53,18 @@ class UserService {
     await user.destroy();
     const message = "User deleted";
     return message;
-  }
+  };
 
   async findEmail(email) {
     const response = await models.User.findOne({
       where: { email },
     });
     return response;
-  }
+  };
+  async follow(data) {
+    const follow = await models.Follow.create(data);
+    return follow;
+  };
 }
 
 module.exports = UserService;
