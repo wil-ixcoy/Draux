@@ -52,7 +52,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/auth/login:
+ * /auth/login:
  *  post:
  *    description: Login de usuario
  *    tags: [Auth]
@@ -81,7 +81,6 @@ const router = express.Router();
 
 router.post(
   '/login',
-  passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
       const user = req.user;
@@ -109,7 +108,7 @@ router.post(
 
 /**
  * @swagger
- * /api/v1/auth/recovery:
+ * /auth/recovery:
  *  post:
  *    description: Login de usuario
  *    tags: [Auth]
@@ -159,7 +158,7 @@ router.post('/recovery', async (req, res, next) => {
  */
 /**
  * @swagger
- * /api/v1/auth/change-password:
+ * /auth/change-password:
  *  post:
  *    description: Cambia la contraseña de un usuario
  *    tags: [Auth]
@@ -195,7 +194,7 @@ router.post(
 
 /**
  * @swagger
- * /api/v1/auth/change-password-admin:
+ * /auth/change-password-admin:
  *  post:
  *    description: Cambia la contraseña de un administrador
  *    tags: [Auth]

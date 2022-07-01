@@ -292,8 +292,6 @@ router.post(
  */
 router.get(
   '/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
       const allUsers = await service.findAll();

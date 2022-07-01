@@ -39,7 +39,7 @@ class AuthService {
       sub: user.id,
       role: user.role,
     };
-    const token = jwt.sign(payload, 'claveSecreta');
+    const token = jwt.sign(payload, config.jwtSecret);
     return {
       user,
       token,
@@ -114,13 +114,13 @@ class AuthService {
       sub: email.id,
     };
 
-    const token = jwt.sign(payload, 'claveSecreta', { expiresIn: '15min' });
+    const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '15min' });
     return token;
   }
 
   async changePassword(token, newPassword) {
     try {
-      const payload = jwt.verify(token, 'claveSecreta');
+      const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.sub);
 
       if (user.recoveryToken !== token) {
@@ -138,7 +138,7 @@ class AuthService {
   }
   async changePasswordAdmin(token, newPassword) {
     try {
-      const payload = jwt.verify(token, 'claveSecreta');
+      const payload = jwt.verify(token, config.jwtSecret);
       const admin = await adminService.findOne(payload.sub);
       if (admin.recoveryToken !== token) {
         throw boom.unauthorized();

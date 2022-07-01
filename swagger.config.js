@@ -48,6 +48,18 @@ const swaggerSpect = {
         <h4>Wiliams Alexander Tzoc Ixcoy, 15 de mayo de 2,022</h4>
         `,
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          in: 'header',
+          name: 'Authorization',
+          description: 'Inicia sesión o registrate, obtén el token y escribelo en el campo de autorización',
+        },
+      },
+    },
+    security: [{ bearerAuth: [] }],
     servers: [
       {
         url: 'http://localhost:3000/api/v1',

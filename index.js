@@ -26,13 +26,13 @@ app.use(
 );
 
 /* whitelist */
-const whitelist = ['http://localhost:8080', 'https://myapp.co'];
+const whitelist = ['http://localhost:8080', 'https://myapp.co','http://localhost:3000'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('no permitido'));
+      callback(new Error('No permitido (CORS)'));
     }
   },
 };
