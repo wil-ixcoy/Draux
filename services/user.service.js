@@ -17,7 +17,7 @@ class UserService {
   async findAll() {
     const allUsers = await models.User.findAll();
     let followers;
-    let data =[];
+    let data = [];
     for (let i = 0; i < allUsers.length; i++) {
       delete allUsers[i].dataValues.password;
       delete allUsers[i].dataValues.recoveryToken;
@@ -78,8 +78,20 @@ class UserService {
     return response;
   };
   async follow(data) {
+    const isFollow = await models.Follow.findOne({
+      where: { userId: data.userId, userFrom: data.userFrom },
+    });
+
+    if (isFollow) {
+      await models.Follow.destroy({
+        where: { userId: data.userId, userFrom: data.userFrom },
+      });
+      const message = "unfollowed";
+      return message;
+    }
     const follow = await models.Follow.create(data);
     return follow;
+
   };
 }
 
