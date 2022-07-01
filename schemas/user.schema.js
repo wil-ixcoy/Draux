@@ -13,7 +13,6 @@ const tokenUser = joi.string();
 const newPasswordUser = joi.string().min(8);
 
 const userId = joi.number().integer();
-const userFrom = joi.number().integer();
 
 
 const createUserSchema = joi.object({
@@ -30,8 +29,7 @@ const getUserSchema = joi.object({
 });
 
 const followUserSchema = joi.object({
-  userId,
-  userFrom,
+  userId: userId.required(),
 });
 
 const updateUserSchema = joi.object({

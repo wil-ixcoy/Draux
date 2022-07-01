@@ -245,14 +245,19 @@ router.post(
 );
 
 router.post(
-  '/follow/',
+  '/follow/:id',
+  validatorHandler(getUserSchema, "params"),
   validatorHandler(followUserSchema, 'body'),
   passport.authenticate('jwt', { session: false }),
   checkRoles('user', 'admin'),
   async (req, res, next) => {
     try {
-      const data = req.body;
-
+      const { id } = req.params;
+      const userTo = req.body;
+      const data = {
+        userId: userTo.userId,
+        userFrom: id
+      }
       const followed = await service.follow(data);
       res.json(followed);
     } catch (err) {
