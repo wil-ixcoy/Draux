@@ -62,6 +62,11 @@ const service = new PostService();
  *        title: "Angular"
  *        content: "Angular es un framework de javascript"
  *
+ *    PostLike:
+ *      example:
+ *        id: "1"
+ *        isLike: "true"
+ *
  *    ResponseCreatePost:
  *      type: object
  *      properties:
@@ -152,7 +157,7 @@ const service = new PostService();
  *             $ref: '#/components/schemas/PostCreate'
  *    responses:
  *      200:
- *       description: Categoria creada
+ *       description: Post creado
  *       content:
  *        application/json:
  *          schema:
@@ -195,6 +200,35 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /post/like:
+ *  post:
+ *    description: Like y dislike a un post
+ *    tags: [Post]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *             $ref: '#/components/schemas/PostLike'
+ *    responses:
+ *      200:
+ *       description: Post creado
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/PostLike'
+ *      409:
+ *       description: email bust be unique
+ *      400:
+ *       description: Bad request
+ *      500:
+ *       description: Internal server error
+ *
+ */
 router.post(
   '/like',
   validatorHandler(likePostSchema, 'body'),

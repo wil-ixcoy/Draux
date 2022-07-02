@@ -75,6 +75,14 @@ const service = new UserService();
  *        country: "Guatemala"
  *        email: "wilicode34@gmail.com"
  *
+ *    FollowUser:
+ *      type: array
+ *      properties:
+ *        userId:
+ *          type: number
+ *      example:
+ *        userId: 1
+ *
  *    ResponseCreateUser:
  *      type: object
  *      properties:
@@ -244,6 +252,39 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /user/follow/{id}:
+ *  post:
+ *    description: Sigue a un usuario, require de parametro id del usuario a seguir y
+ *     en el body debe tener el id del usuario que  va a seguir. Si se desea dejar de
+ *     seguir es el mismo procedimiento
+ *    tags: [User]
+ *    parameters:
+ *     - in: path
+ *       name: id
+ *       schema:
+ *        type: number
+ *    responses:
+ *      200:
+ *       description: Retorna un usuario
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/FollowUser'
+ *      400:
+ *       description: Bad request
+ *      401:
+ *       description: unauthorized
+ *      404:
+ *       description: User not found
+ *      409:
+ *       description: conflict
+ *      500:
+ *       description: Internal server error
+ */
 router.post(
   '/follow/:id',
   validatorHandler(getUserSchema, "params"),
@@ -326,7 +367,7 @@ router.get(
  *      401:
  *       description: unauthorized
  *      404:
- *       description: Admin not found
+ *       description: User not found
  *      409:
  *       description: conflict
  *      500:
@@ -378,7 +419,7 @@ router.get(
  *      401:
  *       description: unauthorized
  *      404:
- *       description: Admin not found
+ *       description: User not found
  *      409:
  *       description: conflict
  *      500:
@@ -429,7 +470,7 @@ router.patch(
  *      401:
  *       description: unauthorized
  *      404:
- *       description: Admin not found
+ *       description: User not found
  *      409:
  *       description: conflict
  *      500:

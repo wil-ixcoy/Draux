@@ -78,6 +78,11 @@ class UserService {
     return response;
   };
   async follow(data) {
+    const userFollowed = await this.findOne(data.userFrom)
+    const userFollowing = await this.findOne(data.userId)
+    if (!userFollowed || !userFollowing) {
+      throw boom.notFound('User not found');
+    }
     const isFollow = await models.Follow.findOne({
       where: { userId: data.userId, userFrom: data.userFrom },
     });
