@@ -26,7 +26,7 @@ app.use(
 );
 
 /* whitelist */
-const whitelist = ['http://localhost:8080', 'https://myapp.co','http://localhost:3000'];
+const whitelist = ['http://localhost:8080', 'https://myapp.co','http://localhost:3000','https://bagged-marks-24855.herokuapp.com'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {

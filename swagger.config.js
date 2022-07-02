@@ -62,13 +62,14 @@ const swaggerSpect = {
     security: [{ bearerAuth: [] }],
     servers: [
       {
+        url: 'https://bagged-marks-24855.herokuapp.com/api/v1',
+        description: 'Heroku',
+      },
+      {
         url: 'http://localhost:3000/api/v1',
         description: 'Localhost',
       },
-      {
-        url: 'https://arcane-castle-52549.herokuapp.com/api/v1',
-        description: 'Heroku',
-      },
+
     ],
   },
   apis: ['./routes/*.js'],
