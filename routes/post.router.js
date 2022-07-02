@@ -36,20 +36,24 @@ const service = new PostService();
  *          type: string
  *        content:
  *          type: string
- *        UserId:
+ *        userId:
  *          type: number
- *        CategoryId:
+ *        categoryId:
  *          type: number
+ *        file:
+ *          type: file
  *      required:
  *        - title
  *        - content
  *        - userId
  *        - categoryId
+ *        - file
  *      example:
- *        title: "Proyecto hecho con express.js"
- *        content: "API de un blogpost realizdo con express, postgress y sequelize"
- *        userId: 1
- *        categoryId: 1
+ *       title: "Proyecto hecho con express.js"
+ *       content: "API de un blogpost realizdo con express, postgress y sequelize"
+ *       userId: 1
+ *       categoryId: 1
+ *       file: "image.jpg"
  *
  *    PostUpdate:
  *      type: object
@@ -87,13 +91,15 @@ const service = new PostService();
  *        CategoryId:
  *         type: number
  *      example:
+ *        createdAt: "2020-05-05T17:00:00.000Z"
+ *        updatedAt: "2020-05-05T17:00:00.000Z"
  *        id: 1
  *        title: "Proyecto hecho con express.js"
  *        content: "API de un blogpost realizdo con express, postgress y sequelize"
- *        createdAt: "2020-05-05T17:00:00.000Z"
- *        updatedAt: "2020-05-05T17:00:00.000Z"
+ *        url_image: "url de la imagen subida"
  *        userId: 1
  *        categoryId: 1
+ *        likes: "null"
  *
  *    ResponseGetOnePost:
  *      type: object
@@ -152,7 +158,7 @@ const service = new PostService();
  *    requestBody:
  *      required: true
  *      content:
- *        application/json:
+ *        multipart/form-data:
  *          schema:
  *             $ref: '#/components/schemas/PostCreate'
  *    responses:
@@ -164,8 +170,6 @@ const service = new PostService();
  *            type: array
  *            items:
  *              $ref: '#/components/schemas/ResponseCreatePost'
- *      409:
- *       description: email bust be unique
  *      400:
  *       description: Bad request
  *      500:
@@ -180,7 +184,7 @@ router.post(
   uploadImageHandler.single('file'),
   async (req, res, next) => {
     try {
-      const imageResize = await helperImage(req.file.path, `resized-${req.file.url_image}`);
+      const imageResize = await helperImage(req.file.path, `resized-${req.file.originalname}`);
       const imageCloudinary = await cloudinary.v2.uploader.upload(imageResize.path);
 
       const data = {
