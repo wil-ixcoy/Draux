@@ -7,9 +7,11 @@ Draux es una plataforma web destinada a conectar a profesionales y aficionados d
 
 
 **Autenticación**
+
 ![](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
 **Documentación**
+
 ![](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white)
 
 **Despliegue en:**
