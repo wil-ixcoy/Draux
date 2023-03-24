@@ -4,8 +4,11 @@ const swaggerSpect = {
     info: {
       title: 'API BLOG',
       version: '1.0.0',
-      description: `<h1><b>Documentación de la API para un blog, hecha con NodeJS, Express, Postgres, Sequelize, Docker, Passport.js y Swagger</b></h1> <br>
-        Como parte de la práctica de desarrollo de aplicaciones web, se ha desarrollado una API RESTful para un blog que contiene los siguientes servicios:
+      description: `<h1><b>Documentación de la API de Draux, hecha con NodeJS, Express, Postgres, Sequelize, Docker, Passport.js y Swagger</b></h1> <br>
+      Draux es una plataforma web destinada a conectar a profesionales y aficionados del diseño UX. Ofrece un espacio para que los usuarios compartan
+      contenido relacionado con el diseño UX, como ideas, noticias, recursos y herramientas, y todos pueden comentar y discutir sobre el contenido,
+      creando una comunidad amigable. Esta API RestFUl contiene lo siguiente:
+
         <ul>
           <li>Autenticación de usuarios y administradores</li>
           <li>CRUD de usuarios</li>
@@ -31,7 +34,7 @@ const swaggerSpect = {
           <li>Actualizar un post o comentario propio</li>
           <li>Eliminar un post o comentario propio</li>
           <li>Obtener uno o todos los usuarios</li>
-          <li>Todas las funciones de administrador requiere el token y el rol de user(el rol es creado de manera automática)</li>
+          <li>Todas las funciones del usuario requiere el token y el rol de user(el rol es creado de manera automática)</li>
         </ul>
         <h2>Usuarios, administradores y personas no registradas pueden: </h2>
         <ul>
@@ -40,9 +43,10 @@ const swaggerSpect = {
           <li>Obtener uno o todos los comentarios</li>
         </ul>
         <h3>Todos las funciones de crear, actualizar y eliminar, requieren token, este es de tipo Barer</h3>
-        <a href="https://www.linkedin.com/in/wiliams-ixcoy-656074229/">Perfil de linkedIn 💙</a> <br>
-        <a href="https://github.com/Wiliams-wq/API_Blog">Link del repositorio en GitHub 🖤</a> <br>
-        <a href="https://twitter.com/wiliCode">Perfil de Twitter 💚</a>
+
+        <a href="https://www.linkedin.com/in/wiliamsixcoy/">Perfil de linkedIn 💙</a> <br>
+        <a href="https://github.com/wil-ixcoy/DraUX_API">Link del repositorio en GitHub 🖤</a> <br>
+        <a href="https://twitter.com/wil_ixcoy">Perfil de Twitter 💚</a>
         <br>
         <br>
         <h4>Wiliams Alexander Tzoc Ixcoy, 15 de mayo de 2,022</h4>
@@ -55,7 +59,8 @@ const swaggerSpect = {
           scheme: 'bearer',
           in: 'header',
           name: 'Authorization',
-          description: 'Inicia sesión o registrate, obtén el token y escribelo en el campo de autorización',
+          description:
+            'Inicia sesión o registrate, obtén el token y escribelo en el campo de autorización',
         },
       },
     },
@@ -69,7 +74,6 @@ const swaggerSpect = {
         url: 'http://localhost:3000/api/v1',
         description: 'Localhost',
       },
-
     ],
   },
   apis: ['./routes/*.js'],
