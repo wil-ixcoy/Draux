@@ -2,13 +2,12 @@ const swaggerSpect = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API BLOG',
+      title: 'API Draux',
       version: '1.0.0',
-      description: `<h1><b>Documentación de la API de Draux, hecha con NodeJS, Express, Postgres, Sequelize, Docker, Passport.js y Swagger</b></h1> <br>
-      Draux es una plataforma web destinada a conectar a profesionales y aficionados del diseño UX. Ofrece un espacio para que los usuarios compartan
+      description: `<h1><b>Documentación de la API de Draux, hecha con NodeJS, Express, Postgres, Sequelize, Docker, Passport.js y Swagger</b></h1>
+      <p>Draux es una plataforma web destinada a conectar a profesionales y aficionados del diseño UX. Ofrece un espacio para que los usuarios compartan
       contenido relacionado con el diseño UX, como ideas, noticias, recursos y herramientas, y todos pueden comentar y discutir sobre el contenido,
-      creando una comunidad amigable. Esta API RestFUl contiene lo siguiente:
-
+      creando una comunidad amigable. Esta API Rest contiene lo siguiente:</p>
         <ul>
           <li>Autenticación de usuarios y administradores</li>
           <li>CRUD de usuarios</li>
