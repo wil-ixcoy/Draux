@@ -52,15 +52,13 @@ Los posts solo pueden ser creados por los usuarios, estos contienen una imagen, 
 ## Comentarios
 Al igual que los posts, son acciones realizadas únicamente por los usuarios, puede comentar sobre algún post, solo requiere contenido. Se pueden eliminar y editar.
 
-** Para publicar un post o un comentario es necesario tener una cuenta.**
+**Para publicar un post o un comentario es necesario tener una cuenta.**
 
 --- 
 
 ## ¿Deseas saber más?
 Ve la documentación: 
-[Documentación](https://infinite-meadow-99672.herokuapp.com/api/docs/ "Documentación")
-
-Repositorio de gitHub: [Draux](https://github.com/wil-ixcoy/DraUX_API)
+[Documentación](https://draux-production.up.railway.app/api/v1/docs/ "Documentación")
 
 
 ## Licencia
